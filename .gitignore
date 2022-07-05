@@ -11,4 +11,5 @@ tools_thumbnail_cache.bin
 
 # vscode
 .vscode
+.editorconfig
 */.vs/*
