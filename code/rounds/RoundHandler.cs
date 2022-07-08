@@ -1,18 +1,15 @@
 ﻿using Sandbox;
-using System;
-using System.Linq;
 // using System.Reflection;
 using System.Collections.Generic;
 
-namespace Deathrun.Rounds
-{
-	public partial class RoundHandler: BaseNetworkable
-	{
+namespace Deathrun.Rounds {
+	public partial class RoundHandler : BaseNetworkable {
 		Dictionary<string, Round> Rounds = new Dictionary<string, Round>();
-		Round ActiveState;
 
-		public RoundHandler()
-		{
+		[Net]
+		Round ActiveState { get; set; }
+
+		public RoundHandler() {
 			Round WaitingState = new WaitingState();
 			Round PrepState = new RoundPrep();
 
@@ -20,10 +17,8 @@ namespace Deathrun.Rounds
 			Rounds.Add( PrepState.RoundId, PrepState );
 		}
 
-		public void SwitchState(string RoundId)
-		{
-			if ( !Rounds.ContainsKey(RoundId) )
-			{
+		public void SwitchState( string RoundId ) {
+			if ( !Rounds.ContainsKey( RoundId ) ) {
 				Log.Error( $"Attempted to switch round state to invalid ID: {RoundId}" );
 				return;
 			}
@@ -36,8 +31,7 @@ namespace Deathrun.Rounds
 			ActiveState.StateStart();
 		}
 
-		public Round GetActiveState()
-		{
+		public Round GetActiveState() {
 			return ActiveState;
 		}
 	}

@@ -1,10 +1,5 @@
-﻿using Sandbox;
-using Deathrun.Rounds;
-using Sandbox.UI.Construct;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Deathrun.Rounds;
+using Sandbox;
 
 namespace Deathrun {
 
@@ -15,17 +10,16 @@ namespace Deathrun {
 	/// You can use this to create things like HUDs and declare which player class
 	/// to use for spawned players.
 	/// </summary>
-	public partial class GameCore : Game
-	{
+	public partial class GameCore : Game {
 		public static GameCore Instance => Current as GameCore;
-		public RoundHandler RoundHandler;
 
-		public GameCore()
-		{
+		[Net]
+		public RoundHandler RoundHandler { get; private set; }
+
+		public GameCore() {
 			RoundHandler = new RoundHandler();
 
-			if (IsServer)
-			{
+			if ( IsServer ) {
 				RoundHandler.SwitchState( "waiting" );
 			}
 		}
@@ -34,8 +28,7 @@ namespace Deathrun {
 		/// <summary>
 		/// A client has joined the server. Make them a pawn to play with
 		/// </summary>
-		public override void ClientJoined( Client client )
-		{
+		public override void ClientJoined( Client client ) {
 			base.ClientJoined( client );
 
 			// Create a pawn and assign it to the client.
@@ -46,13 +39,20 @@ namespace Deathrun {
 		}
 
 		[Event.Tick.Server]
-		public void Tick()
-		{
+		public void Tick() {
 			Round ActiveState = RoundHandler.GetActiveState();
 
-			Log.Info( $"Current state is {ActiveState.RoundName}" );
-
 			ActiveState.Tick();
+		}
+
+		[ConCmd.Server( "deathrun_getactivestate" )]
+		public static void GetActiveState() {
+			Log.Info( Instance.RoundHandler.GetActiveState() );
+		}
+
+		[ConCmd.Client( "deathrun_getactivestate_client" )]
+		public static void GetActiveStateClient() {
+			Log.Info( Instance.RoundHandler.GetActiveState() );
 		}
 	}
 }

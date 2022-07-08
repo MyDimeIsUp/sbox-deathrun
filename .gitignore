@@ -10,6 +10,4 @@ tools_thumbnail_cache.bin
 *.vtex_c
 
 # vscode
-.vscode
-.editorconfig
 */.vs/*
