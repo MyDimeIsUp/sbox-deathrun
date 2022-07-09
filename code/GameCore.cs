@@ -1,17 +1,10 @@
-﻿using Deathrun.Rounds;
-using Sandbox;
+﻿using Sandbox;
+using Deathrun.Rounds;
 
 namespace Deathrun {
-
-	/// <summary>
-	/// This is your game class. This is an entity that is created serverside when
-	/// the game starts, and is replicated to the client. 
-	/// 
-	/// You can use this to create things like HUDs and declare which player class
-	/// to use for spawned players.
-	/// </summary>
 	public partial class GameCore : Game {
 		public static GameCore Instance => Current as GameCore;
+		public HudManager HudManager;
 
 		[Net]
 		public RoundHandler RoundHandler { get; private set; }
@@ -20,10 +13,21 @@ namespace Deathrun {
 			RoundHandler = new RoundHandler();
 
 			if ( IsServer ) {
-				RoundHandler.SwitchState( "waiting" );
+				HudManager = new HudManager();
+
+				RoundHandler.SwitchState( new WaitingState() );
 			}
 		}
 
+		[Event.Hotload]
+		public void HotloadUpdate() {
+			if ( !IsClient ) return;
+
+			HudManager?.Delete();
+			HudManager = new HudManager();
+
+			Log.Info( "Created new HUD Hotload" );
+		}
 
 		/// <summary>
 		/// A client has joined the server. Make them a pawn to play with
@@ -32,7 +36,7 @@ namespace Deathrun {
 			base.ClientJoined( client );
 
 			// Create a pawn and assign it to the client.
-			var player = new Pawn();
+			var player = new DeathrunPlayer();
 			client.Pawn = player;
 
 			player.Respawn();

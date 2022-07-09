@@ -1,0 +1,17 @@
+﻿<link rel="stylesheet" href="RoleVitalsBox.scss">
+
+<div class="health-container">
+    <div class="role-container" @ref="RoleContainer">
+        <label class="player-name" @text="PlayerName"></label>
+    </div>
+
+    <div class="health-ammo-container">
+        <div class="health-bar-container" @ref="HealthBarContainer">
+            <div class="health-bar" @ref="HealthBar">
+
+            </div>
+        </div>
+
+        <label @ref="HealthTextPanel" @text="HealthText"></label>
+    </div>
+</div>

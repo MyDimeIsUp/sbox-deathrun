@@ -17,8 +17,8 @@ namespace Deathrun.Rounds {
 		public override void Tick() {
 			base.Tick();
 
-			if ( Entity.All.OfType<Pawn>().Count() >= 2 ) {
-				GameCore.Instance.RoundHandler.SwitchState( "round_prep" );
+			if ( Entity.All.OfType<DeathrunPlayer>().Count() >= 2 ) {
+				GameCore.Instance.RoundHandler.SwitchState( new RoundPrep() );
 			}
 		}
 	}
