@@ -16,8 +16,8 @@ public class RoundPrep : Round {
 	/// </summary>
 	public override async void StateStart() {
 		List<DeathrunPlayer> PlayersInRound = new();
-		IEnumerable<SpawnPointDeath> SpawnPoints = Entity.All
-			.OfType<SpawnPointDeath>();              // get all death spawnpoints
+		var SpawnPoints = Entity.All
+			.OfType<SpawnPointDeath>();              // get death spawnpointz
 
 		// Add players to list and disable their input due to pre-round timer. Set default team to Runner
 		foreach ( var client in Client.All ) {
@@ -25,6 +25,8 @@ public class RoundPrep : Round {
 				PlayersInRound.Add( player );
 				player.Controller = null;
 				player.Team = "Runner";
+
+				GameCore.Instance.MoveToSpawnpoint( player ); // Move to spawn point
 			}
 		}
 

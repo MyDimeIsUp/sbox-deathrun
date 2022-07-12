@@ -19,14 +19,19 @@ namespace Deathrun {
 			}
 		}
 
-		[Event.Hotload]
-		public void HotloadUpdate() {
-			if ( !IsClient ) return;
+		/// <summary>
+		/// Called each tick.
+		/// Serverside: Called for each client every tick
+		/// Clientside: Called for each tick for local client. Can be called multiple times per tick.
+		/// </summary>
+		public override void Simulate( Client cl ) {
+			if ( !cl.Pawn.IsValid() ) return;
 
-			HudManager?.Delete();
-			HudManager = new HudManager();
+			// Block Simulate from running clientside
+			// if we're not predictable.
+			if ( !cl.Pawn.IsAuthority ) return;
 
-			Log.Info( "Created new HUD Hotload" );
+			cl.Pawn.Simulate( cl );
 		}
 
 		/// <summary>
@@ -47,6 +52,17 @@ namespace Deathrun {
 			Round ActiveState = RoundHandler.GetActiveState();
 
 			ActiveState.Tick();
+		}
+
+
+		[Event.Hotload]
+		public void HotloadUpdate() {
+			if ( !IsClient ) return;
+
+			HudManager?.Delete();
+			HudManager = new HudManager();
+
+			Log.Info( "Created new HUD Hotload" );
 		}
 
 		[ConCmd.Server( "deathrun_getactivestate" )]

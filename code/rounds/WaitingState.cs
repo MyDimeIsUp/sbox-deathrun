@@ -13,7 +13,6 @@ namespace Deathrun.Rounds {
 
 		}
 
-
 		public override void Tick() {
 			base.Tick();
 

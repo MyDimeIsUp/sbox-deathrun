@@ -1,5 +1,7 @@
 ﻿using Sandbox;
 
+namespace Deathrun;
+
 partial class Pawn : Player {
 	public override void Respawn() {
 		SetModel( "models/citizen/citizen.vmdl" );
@@ -19,5 +21,12 @@ partial class Pawn : Player {
 		EnableShadowInFirstPerson = true;
 
 		base.Respawn();
+	}
+
+	public override void Simulate( Client cl ) {
+		base.Simulate( cl );
+		TickPlayerUse();
+
+		Log.Info( "YEYE" );
 	}
 }
