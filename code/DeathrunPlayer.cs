@@ -20,4 +20,10 @@ partial class DeathrunPlayer : Player {
 
 		base.Respawn();
 	}
+
+	public override void Simulate( Client cl ) {
+		base.Simulate( cl );
+
+		TickPlayerUse();
+	}
 }
