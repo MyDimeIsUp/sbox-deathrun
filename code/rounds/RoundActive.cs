@@ -12,12 +12,11 @@ namespace Deathrun.Rounds {
 		/// </summary>
 		public override void StateStart() {
 			foreach ( var client in Client.All ) {
-				if ( client.Pawn is DeathrunPlayer player ) {
-					player.Controller = new WalkController();
+				if ( client.Pawn is DeathrunPlayer player && player.Controller is DeathrunWalkController controller ) {
+					controller.DisableWalkMovement = false;	
 				}
 			}
 		}
-
 
 		/// <summary>
 		/// Check for win state and check if we can still have an active round
@@ -33,13 +32,7 @@ namespace Deathrun.Rounds {
 		/// </summary>
 		/// <returns></returns>
 		public void CheckForWin() {
-			List<DeathrunPlayer> PlayersInRound = new();
 
-			foreach ( var client in Client.All ) {
-				if ( client.Pawn is DeathrunPlayer player ) {
-					PlayersInRound.Add( player );
-				}
-			}
 		}
 	}
 }

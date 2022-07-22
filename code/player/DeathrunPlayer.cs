@@ -2,17 +2,15 @@
 
 namespace Deathrun;
 
-partial class Pawn : Player {
+partial class DeathrunPlayer : Player {
+	[Net]
+	public string Team { get; set; } = "Runner";
+
 	public override void Respawn() {
 		SetModel( "models/citizen/citizen.vmdl" );
 
-		// Use WalkController for movement (you can make your own PlayerController for 100% control)
-		Controller = new WalkController();
-
-		// Use StandardPlayerAnimator  (you can make your own PlayerAnimator for 100% control)
+		Controller = new DeathrunWalkController();
 		Animator = new StandardPlayerAnimator();
-
-		// Use ThirdPersonCamera (you can make your own Camera for 100% control)
 		CameraMode = new FirstPersonCamera();
 
 		EnableAllCollisions = true;
@@ -25,8 +23,7 @@ partial class Pawn : Player {
 
 	public override void Simulate( Client cl ) {
 		base.Simulate( cl );
-		TickPlayerUse();
 
-		Log.Info( "YEYE" );
+		TickPlayerUse();
 	}
 }

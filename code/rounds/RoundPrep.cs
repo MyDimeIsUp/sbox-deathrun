@@ -21,10 +21,10 @@ public class RoundPrep : Round {
 
 		// Add players to list and disable their input due to pre-round timer. Set default team to Runner
 		foreach ( var client in Client.All ) {
-			if ( client.Pawn is DeathrunPlayer player ) {
+			if ( client.Pawn is DeathrunPlayer player && player.Controller is DeathrunWalkController controller) {
 				PlayersInRound.Add( player );
-				player.Controller = null;
 				player.Team = "Runner";
+				controller.DisableWalkMovement = true;
 
 				GameCore.Instance.MoveToSpawnpoint( player ); // Move to spawn point
 			}

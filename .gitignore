@@ -11,3 +11,5 @@ tools_thumbnail_cache.bin
 
 # vscode
 */.vs/*
+/maps
+/materials
