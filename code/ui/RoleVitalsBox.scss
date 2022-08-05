@@ -18,6 +18,10 @@
         background-color: dimgrey;
     }
 
+    &.dead {
+        background-color: #646464;
+    }
+
     &.Runner {
         background-color: darkcyan;
     }
@@ -67,4 +71,8 @@
             transition: width 0.2s ease;
         }
     }
+}
+
+.hidden {
+    display: none;
 }

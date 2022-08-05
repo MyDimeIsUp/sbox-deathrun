@@ -18,6 +18,7 @@ public partial class RoleVitalsBox : Panel {
 	private Panel HealthBar { get; set; }
 	private Panel HealthBarContainer { get; set; }
 	private Panel HealthTextPanel { get; set; }
+	private Panel HealthAmmoContainer { get; set; }
 	private string HealthText { get; set; }
 	private string PlayerName { get; set; }
 
@@ -26,12 +27,19 @@ public partial class RoleVitalsBox : Panel {
 
 		PlayerName = player.Team;
 
-		if (GameCore.Instance.RoundHandler.GetActiveState().RoundId == "waiting") {
+		if ( GameCore.Instance.RoundHandler.GetActiveState().RoundId == "waiting" ) {
 			PlayerName = "Waiting";
 			RoleContainer.AddClass( "waiting" );
+			HealthAmmoContainer.RemoveClass( "hidden" );
+		} else if (player.LifeState == LifeState.Dead) {
+			PlayerName = "In Progress";
+			RoleContainer.RemoveClass( "waiting" );
+			HealthAmmoContainer.AddClass( "hidden" );
+			RoleContainer.AddClass( "dead" );
 		} else {
 			PlayerName = player.Team;
 			RoleContainer.RemoveClass( "waiting" );
+			HealthAmmoContainer.RemoveClass( "hidden" );
 			RoleContainer.AddClass( player.Team );
 		}
 
