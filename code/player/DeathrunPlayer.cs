@@ -5,6 +5,7 @@ namespace Deathrun;
 partial class DeathrunPlayer : Player {
 	[Net]
 	public string Team { get; set; } = "Runner";
+	TimeSince _timeSinceDeath;
 
 	public override void Respawn() {
 		SetModel( "models/citizen/citizen.vmdl" );
@@ -21,8 +22,30 @@ partial class DeathrunPlayer : Player {
 		base.Respawn();
 	}
 
+	public override void OnKilled() {
+		base.OnKilled();
+
+		_timeSinceDeath = 0;
+	}
+
+	/// <summary>
+	/// Handles player every tick. Do not call base since it will result in a respawn 3 secs after death
+	/// </summary>
+	/// <param name="cl"></param>
 	public override void Simulate( Client cl ) {
-		base.Simulate( cl );
+		if ( cl.Pawn is not Player player ) return;
+
+		if ( LifeState == LifeState.Dead &&  player.Controller is not SpectateController) {
+			// Prevent any movement if we are dead and not in spectator cam mode
+			if ( _timeSinceDeath >= 3 && IsServer ) {
+				player.Controller = new SpectateController();
+			}
+
+			return;
+		} 
+
+		var controller = GetActiveController();
+		controller?.Simulate( cl, this, GetActiveAnimator() );
 
 		TickPlayerUse();
 	}
