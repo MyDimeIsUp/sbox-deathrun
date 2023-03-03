@@ -1,5 +1,5 @@
 ﻿using Sandbox;
-using SandboxEditor;
+using Editor;
 
 namespace Deathrun.Entites.Hammer {
 	[Library( "info_player_spawn_death" ), HammerEntity]

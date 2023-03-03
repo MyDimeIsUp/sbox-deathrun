@@ -11,7 +11,7 @@ namespace Deathrun.Rounds {
 		/// Initial method that is run when the round state is changed
 		/// </summary>
 		public override void StateStart() {
-			foreach ( var client in Client.All ) {
+			foreach ( var client in Game.Clients) {
 				if ( client.Pawn is DeathrunPlayer player && player.Controller is DeathrunWalkController controller ) {
 					controller.DisableWalkMovement = false;	
 				}

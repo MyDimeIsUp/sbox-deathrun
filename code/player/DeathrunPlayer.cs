@@ -11,8 +11,8 @@ partial class DeathrunPlayer : Player {
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new DeathrunWalkController();
-		Animator = new StandardPlayerAnimator();
-		CameraMode = new FirstPersonCamera();
+		//Animator = new StandardPlayerAnimator();
+		//CameraMode = new FirstPersonCamera();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
@@ -32,20 +32,17 @@ partial class DeathrunPlayer : Player {
 	/// Handles player every tick. Do not call base since it will result in a respawn 3 secs after death
 	/// </summary>
 	/// <param name="cl"></param>
-	public override void Simulate( Client cl ) {
+	public override void Simulate( IClient cl ) {
 		if ( cl.Pawn is not Player player ) return;
 
 		if ( LifeState == LifeState.Dead &&  player.Controller is not SpectateController) {
 			// Prevent any movement if we are dead and not in spectator cam mode
-			if ( _timeSinceDeath >= 3 && IsServer ) {
+			if ( _timeSinceDeath >= 3 && Game.IsServer ) {
 				player.Controller = new SpectateController();
 			}
 
 			return;
-		} 
-
-		var controller = GetActiveController();
-		controller?.Simulate( cl, this, GetActiveAnimator() );
+		}
 
 		TickPlayerUse();
 	}

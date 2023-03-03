@@ -23,7 +23,7 @@ public partial class RoleVitalsBox : Panel {
 	private string PlayerName { get; set; }
 
 	public override void Tick() {
-		if ( Local.Pawn is not DeathrunPlayer player ) return;
+		if ( Game.LocalPawn is not DeathrunPlayer player ) return;
 
 		PlayerName = player.Team;
 

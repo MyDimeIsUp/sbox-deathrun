@@ -20,7 +20,7 @@ public class RoundPrep : Round {
 			.OfType<SpawnPointDeath>();              // get death spawnpointz
 
 		// Add players to list and disable their input due to pre-round timer. Set default team to Runner
-		foreach ( var client in Client.All ) {
+		foreach ( var client in Game.Clients ) {
 			if ( client.Pawn is DeathrunPlayer player && player.Controller is DeathrunWalkController controller) {
 				PlayersInRound.Add( player );
 				player.Team = "Runner";

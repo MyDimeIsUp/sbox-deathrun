@@ -10,7 +10,7 @@ namespace Deathrun;
 
 public partial class HudManager : Sandbox.HudEntity<RootPanel> {
 	public HudManager() {
-		if (IsServer) { return; }
+		if (Game.IsServer) { return; }
 
 		RootPanel.AddChild<RoleVitalsBox>();
 		RootPanel.AddChild<ChatBox>();

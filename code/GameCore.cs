@@ -2,7 +2,7 @@
 using Deathrun.Rounds;
 
 namespace Deathrun {
-	public partial class GameCore : Game {
+	public partial class GameCore : GameManager {
 		public static GameCore Instance => Current as GameCore;
 		public HudManager HudManager;
 
@@ -12,7 +12,7 @@ namespace Deathrun {
 		public GameCore() {
 			RoundHandler = new RoundHandler();
 
-			if ( IsServer ) {
+			if ( Game.IsServer ) {
 				HudManager = new HudManager();
 
 				RoundHandler.SwitchState( new WaitingState() );
@@ -20,24 +20,9 @@ namespace Deathrun {
 		}
 
 		/// <summary>
-		/// Called each tick.
-		/// Serverside: Called for each client every tick
-		/// Clientside: Called for each tick for local client. Can be called multiple times per tick.
-		/// </summary>
-		public override void Simulate( Client cl ) {
-			if ( !cl.Pawn.IsValid() ) return;
-
-			// Block Simulate from running clientside
-			// if we're not predictable.
-			if ( !cl.Pawn.IsAuthority ) return;
-
-			cl.Pawn.Simulate( cl );
-		}
-
-		/// <summary>
 		/// A client has joined the server. Make them a pawn to play with
 		/// </summary>
-		public override void ClientJoined( Client client ) {
+		public override void ClientJoined( IClient client ) {
 			base.ClientJoined( client );
 
 			// Create a pawn and assign it to the client.
@@ -57,7 +42,7 @@ namespace Deathrun {
 
 		[Event.Hotload]
 		public void HotloadUpdate() {
-			if ( !IsClient ) return;
+			if ( !Game.IsClient ) return;
 
 			HudManager?.Delete();
 			HudManager = new HudManager();

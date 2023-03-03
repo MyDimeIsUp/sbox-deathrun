@@ -3,13 +3,13 @@
   "Type": "game",
   "Org": "local",
   "Ident": "deathrun",
+  "Tags": null,
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
   "ResourcePaths": null,
   "HasCode": true,
   "CodePath": "/code/",
-  "RootNamespace": "Sandbox",
   "Metadata": {
     "MaxPlayers": 32,
     "MinPlayers": 0,
@@ -20,6 +20,7 @@
     ],
     "RankType": "None",
     "PerMapRanking": false,
-    "LeaderboardType": "None"
+    "LeaderboardType": "None",
+    "CsProjName": ""
   }
 }
